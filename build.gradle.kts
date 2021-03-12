@@ -21,14 +21,16 @@ dependencies {
 	implementation("org.jetbrains.kotlin:kotlin-reflect")
 	implementation("org.springframework.boot:spring-boot-starter-web")
 	implementation("org.jetbrains.kotlin:kotlin-stdlib-jdk8")
-	implementation("javax.servlet:javax.servlet-api")
-	testImplementation("org.springframework.boot:spring-boot-starter-test")
+
+	// for jwt
 	implementation("org.springframework.boot:spring-boot-starter-security:2.4.2")
-	implementation("org.springframework.security:spring-security-config")
+	implementation("javax.servlet:javax.servlet-api")
 	implementation("io.jsonwebtoken:jjwt-api:0.10.5")
 	implementation("io.jsonwebtoken:jjwt-impl:0.10.5")
 	implementation("io.jsonwebtoken:jjwt-jackson:0.10.5")
 	implementation("org.apache.commons:commons-lang3:3.12.0")
+
+	testImplementation("org.springframework.boot:spring-boot-starter-test")
 }
 
 
