@@ -16,7 +16,8 @@ import javax.servlet.http.HttpServletRequest
 import javax.servlet.http.HttpServletResponse
 
 // the first time a user try to login this Filter is hit.
-// This filter check if username and password are correct, and if so, it creates a Bearer Token
+// This filter check if username and password are correct, and if so, it creates a JWT Bearer Token, which has
+// some expiratio period
 class JwtAuthenticationFilter(authenticationManager: AuthenticationManager) : UsernamePasswordAuthenticationFilter() {
     val authManager: AuthenticationManager
 
