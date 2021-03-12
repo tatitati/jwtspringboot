@@ -51,13 +51,15 @@ class JwtAuthenticationFilter(authenticationManager: AuthenticationManager) : Us
 
         val newToken = Jwts
                 .builder()
-                .signWith(Keys.hmacShaKeyFor(signingKey), SignatureAlgorithm.HS512)
-                .setHeaderParam("typ", SecurityConstants.JWT)
-                .setIssuer(SecurityConstants.secure_api)
-                .setAudience(SecurityConstants.secure_app)
-                .setSubject(user.getUsername())
-                .setExpiration(Date(System.currentTimeMillis() + 864000000))
-                .claim("rol", roles)
+                // jwt token header
+                .signWith(Keys.hmacShaKeyFor(signingKey), SignatureAlgorithm.HS512)   // JWT header: alg field
+                .setHeaderParam("typ", SecurityConstants.JWT)                   // JWT header: typ field
+                // jwt token payload
+                .setIssuer(SecurityConstants.secure_api)                              // JWT payload: iss field
+                .setAudience(SecurityConstants.secure_app)                            // JWT payload: aud field
+                .setSubject(user.getUsername())                                       // JWT payload: sub field
+                .setExpiration(Date(System.currentTimeMillis() + 864000000))     // JWT payload: exp field
+                .claim("rol", roles)                                            // JWT payload: rol field
                 .compact()
 
         response.addHeader(
