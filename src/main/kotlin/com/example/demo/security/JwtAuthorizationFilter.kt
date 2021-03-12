@@ -19,16 +19,20 @@ import javax.servlet.http.HttpServletRequest
 import javax.servlet.http.HttpServletResponse
 import java.io.IOException
 
-
+// After login and recieve a bearer token, this filter is hit on each subsequent request.
+// The user send the Bearer token on each.
 class JwtAuthorizationFilter(authenticationManager: AuthenticationManager) : BasicAuthenticationFilter(authenticationManager) {
 
     @Throws(IOException::class, ServletException::class)
-    override fun doFilterInternal(request: HttpServletRequest, response: HttpServletResponse,
-                                  filterChain: FilterChain) {
+    override fun doFilterInternal(
+            request: HttpServletRequest,
+            response: HttpServletResponse,
+            filterChain: FilterChain
+    ) {
         val authentication = getAuthentication(request)
-        val header = request.getHeader(SecurityConstants.TOKEN_HEADER)
+        val header = request.getHeader(SecurityConstants.Authorization)
 
-        if (StringUtils.isEmpty(header) || !header.startsWith(SecurityConstants.TOKEN_PREFIX)) {
+        if (StringUtils.isEmpty(header) || !header.startsWith(SecurityConstants.Bearer)) {
             filterChain.doFilter(request, response)
             return
         }
@@ -38,7 +42,7 @@ class JwtAuthorizationFilter(authenticationManager: AuthenticationManager) : Bas
     }
 
     private fun getAuthentication(request: HttpServletRequest): UsernamePasswordAuthenticationToken? {
-        val token = request.getHeader(SecurityConstants.TOKEN_HEADER)
+        val token = request.getHeader(SecurityConstants.Authorization)
         if (StringUtils.isNotEmpty(token)) {
             try {
                 val signingKey = SecurityConstants.JWT_SECRET.toByteArray()
@@ -73,7 +77,6 @@ class JwtAuthorizationFilter(authenticationManager: AuthenticationManager) : Bas
     }
 
     companion object {
-
         private val log = LoggerFactory.getLogger(JwtAuthorizationFilter::class.java)
     }
 }
