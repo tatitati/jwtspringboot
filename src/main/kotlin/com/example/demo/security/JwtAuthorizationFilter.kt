@@ -47,7 +47,8 @@ class JwtAuthorizationFilter(authenticationManager: AuthenticationManager) : Bas
             try {
                 val signingKey = SecurityConstants.JWT_SECRET.toByteArray()
 
-                val parsedToken = Jwts.parser()
+                val parsedToken = Jwts
+                        .parser()
                         .setSigningKey(signingKey)
                         .parseClaimsJws(token.replace("Bearer ", ""))
 
